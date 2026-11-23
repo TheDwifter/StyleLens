@@ -1,0 +1,35 @@
+{
+  "name": "stylelens",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Copy the style of any lettering on the web and remake it with your own words, as separate picture, lettering and background files.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build && npm run build:overlay && node scripts/postbuild.mjs",
+    "build:overlay": "vite build --config vite.overlay.config.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "icons": "node scripts/generate-icons.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "^0.511.0",
+    "onnxruntime-web": "^1.31.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.7",
+    "@types/chrome": "^0.1.24",
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.4",
+    "@vitejs/plugin-react": "^4.5.0",
+    "jsdom": "^26.1.0",
+    "tailwindcss": "^4.1.7",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.4"
+  }
+}

@@ -1,0 +1,472 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #09090b;
+    color: #f4f4f5;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+  }
+}
+
+/* Matte Carbon stealth backdrop — pure dark floor under NoirNeonBackdrop */
+.sl-stealth-canvas {
+  background-color: #060608;
+  background-image:
+    radial-gradient(circle 300px at 84% -6%, rgba(255, 255, 255, 0.045), transparent 72%),
+    linear-gradient(180deg, #09090c 0%, #050507 100%);
+}
+
+/* Frosted matte carbon card: lets subtle neon lines peek through margins while guaranteeing >15:1 text contrast */
+.sl-card {
+  background-color: rgba(15, 15, 19, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.095);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Luminous pure-white primary action (matching the glowing white rings & bars in reference) */
+.sl-btn-white {
+  background-color: #ffffff;
+  color: #09090b;
+  font-weight: 600;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.18);
+}
+.sl-btn-white:hover {
+  background-color: #f4f4f5;
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.3);
+}
+
+/* Matte carbon secondary button */
+.sl-btn-carbon {
+  background-color: #16161a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e4e4e7;
+  font-weight: 500;
+}
+.sl-btn-carbon:hover {
+  background-color: #1e1e24;
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+}
+
+/* Luminous white ring indicator (signature reference motif) */
+.sl-white-ring {
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.55), inset 0 0 6px rgba(255, 255, 255, 0.25);
+}
+
+/* Subtle dark checkerboard for transparent screenshot previews */
+.sl-checkerboard {
+  background-color: #0d0d10;
+  background-image:
+    linear-gradient(45deg, #141418 25%, transparent 25%),
+    linear-gradient(-45deg, #141418 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #141418 75%),
+    linear-gradient(-45deg, transparent 75%, #141418 75%);
+  background-size: 14px 14px;
+  background-position: 0 0, 0 7px, 7px -7px, -7px 0;
+}
+
+/* Light checkerboard for dark/black transparent cutouts (e.g. black "Rots" lettering) */
+.sl-checkerboard-light {
+  background-color: #e4e4e7;
+  background-image:
+    linear-gradient(45deg, #cbd5e1 25%, transparent 25%),
+    linear-gradient(-45deg, #cbd5e1 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #cbd5e1 75%),
+    linear-gradient(-45deg, transparent 75%, #cbd5e1 75%);
+  background-size: 12px 12px;
+  background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+}
+
+/* Mid-dark checkerboard for white/bright/silver transparent cutouts */
+.sl-checkerboard-dark {
+  background-color: #1c1c22;
+  background-image:
+    linear-gradient(45deg, #2b2b34 25%, transparent 25%),
+    linear-gradient(-45deg, #2b2b34 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #2b2b34 75%),
+    linear-gradient(-45deg, transparent 75%, #2b2b34 75%);
+  background-size: 12px 12px;
+  background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+}
+
+.sl-mono {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+/* Crisp monochrome white-light letter glitch — strictly scoped to top <header> clicks */
+@keyframes sl-text-glitch {
+  0% {
+    text-shadow: none;
+    transform: translate3d(0, 0, 0);
+  }
+  30% {
+    text-shadow:
+      -1.5px 0 rgba(255, 255, 255, 0.85),
+      1.5px 0 rgba(161, 161, 170, 0.7);
+    transform: skewX(-3deg);
+  }
+  65% {
+    text-shadow:
+      1.5px 0 rgba(255, 255, 255, 0.85),
+      -1.5px 0 rgba(161, 161, 170, 0.65);
+    transform: skewX(2deg);
+  }
+  100% {
+    text-shadow: none;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.sl-glitching {
+  animation: sl-text-glitch 150ms steps(4, end) both;
+}
+
+/* Calm static formal 90° architectural grid layer (no distracting background glitch) */
+.sl-ortho-grid-layer {
+  opacity: 0.92;
+}
+
+.sl-still-mode .sl-ortho-grid-layer {
+  opacity: 0.72;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sl-glitching {
+    animation: none !important;
+  }
+  .sl-ortho-grid-layer {
+    opacity: 0.72;
+  }
+}
+
+/* ---------------------------------------------------------------------------------------------
+   Sheen: a soft highlight that follows the pointer across a button, like light on a polished
+   surface. Pointer position arrives as --sl-mx / --sl-my (set by one delegated listener in
+   main.tsx). Monochrome and low-contrast on purpose: it should read as material, not decoration.
+   --------------------------------------------------------------------------------------------- */
+.sl-btn-white,
+.sl-btn-carbon,
+.sl-sheen {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.sl-btn-white::before,
+.sl-btn-carbon::before,
+.sl-sheen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+  background: radial-gradient(
+    110px circle at var(--sl-mx, 50%) var(--sl-my, 50%),
+    var(--sl-sheen-color, rgba(255, 255, 255, 0.16)),
+    transparent 62%
+  );
+}
+/* On a white button a brighter spot is invisible, so the light is drawn as a faint cool shade */
+.sl-btn-white,
+.sl-sheen {
+  --sl-sheen-color: rgba(24, 24, 32, 0.1);
+}
+.sl-btn-carbon {
+  --sl-sheen-color: rgba(255, 255, 255, 0.14);
+}
+.sl-btn-white:hover::before,
+.sl-btn-carbon:hover::before,
+.sl-sheen:hover::before {
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------------------------------------
+   Cue: marks the ONE thing to press next. A thin band of light glides across the button, then a
+   quiet halo breathes once, then it rests. Slow and sparse so it guides without nagging.
+   --------------------------------------------------------------------------------------------- */
+.sl-cue {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  animation: sl-cue-halo 3.8s ease-in-out 3;
+}
+.sl-cue::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 46%;
+  pointer-events: none;
+  transform: translateX(-130%) skewX(-18deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--sl-cue-color, rgba(24, 24, 32, 0.12)) 50%,
+    transparent
+  );
+  animation: sl-cue-sweep 3.8s cubic-bezier(0.4, 0, 0.2, 1) 3;
+}
+.sl-btn-carbon.sl-cue {
+  --sl-cue-color: rgba(255, 255, 255, 0.2);
+}
+.sl-cue:disabled,
+.sl-cue[aria-disabled='true'] {
+  animation: none;
+}
+.sl-cue:disabled::after,
+.sl-cue[aria-disabled='true']::after {
+  animation: none;
+  opacity: 0;
+}
+@keyframes sl-cue-sweep {
+  0%,
+  8% {
+    transform: translateX(-130%) skewX(-18deg);
+  }
+  34%,
+  100% {
+    transform: translateX(330%) skewX(-18deg);
+  }
+}
+@keyframes sl-cue-halo {
+  0%,
+  30%,
+  100% {
+    box-shadow: 0 0 14px rgba(255, 255, 255, 0.18);
+  }
+  52% {
+    box-shadow:
+      0 0 0 3px rgba(255, 255, 255, 0.16),
+      0 0 26px rgba(255, 255, 255, 0.34);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sl-cue {
+    animation: none;
+    box-shadow:
+      0 0 0 2px rgba(255, 255, 255, 0.28),
+      0 0 18px rgba(255, 255, 255, 0.22);
+  }
+  .sl-cue::after {
+    animation: none;
+    opacity: 0;
+  }
+  .sl-btn-white::before,
+  .sl-btn-carbon::before,
+  .sl-sheen::before {
+    transition: none;
+  }
+}
+/* ---------------------------------------------------------------------------------------------
+   Step 1 viewfinder: the captured picture shown the way a camera shows a frame, so "go back here
+   to capture a new one" is obvious. Four hairline corner brackets and small mono labels; no
+   scanlines, no blinking record dot, no fake "live" shimmer.
+   --------------------------------------------------------------------------------------------- */
+.sl-viewfinder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.5) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+.sl-vf-corner {
+  position: absolute;
+  z-index: 2;
+  width: 12px;
+  height: 12px;
+  border: 0 solid rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+}
+.sl-vf-tl { top: 5px; left: 5px; border-top-width: 1.5px; border-left-width: 1.5px; }
+.sl-vf-tr { top: 5px; right: 5px; border-top-width: 1.5px; border-right-width: 1.5px; }
+.sl-vf-bl { bottom: 5px; left: 5px; border-bottom-width: 1.5px; border-left-width: 1.5px; }
+.sl-vf-br { bottom: 5px; right: 5px; border-bottom-width: 1.5px; border-right-width: 1.5px; }
+.sl-vf-label {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.86);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+/* Shutter flash: ONE soft flash per press, confined to the viewfinder (well inside the WCAG
+   "three flashes" limit). Reduced motion: no flash at all. */
+.sl-vf-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: #ffffff;
+  opacity: 0;
+  animation: sl-vf-flash 200ms ease-out 1;
+}
+@keyframes sl-vf-flash {
+  0% { opacity: 0; }
+  20% { opacity: 0.35; }
+  100% { opacity: 0; }
+}
+
+/* ---------------------------------------------------------------------------------------------
+   Capture mark: four dots that keep re-forming, square -> triangle (one dot at its heart) ->
+   diamond -> square. Slow and even, so it reads as alive rather than busy.
+   --------------------------------------------------------------------------------------------- */
+.sl-dots {
+  --sl-dot: rgba(255, 255, 255, 0.95);
+  position: relative;
+  display: inline-block;
+  flex: none;
+}
+.sl-dots--on-light {
+  --sl-dot: #0b0b10;
+}
+.sl-dots > i {
+  position: absolute;
+  width: 26%;
+  height: 26%;
+  margin: -13% 0 0 -13%;
+  border-radius: 9999px;
+  background: var(--sl-dot);
+  /* Longhands on purpose: the name is set per dot below, and a name-less shorthand was being
+     dropped by the CSS build, leaving a 0s duration. */
+  animation-duration: 6.4s;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  animation-iteration-count: infinite;
+}
+.sl-dots > i:nth-child(1) { left: 18%; top: 18%; animation-name: sl-dot-1; }
+.sl-dots > i:nth-child(2) { left: 82%; top: 18%; animation-name: sl-dot-2; }
+.sl-dots > i:nth-child(3) { left: 82%; top: 82%; animation-name: sl-dot-3; }
+.sl-dots > i:nth-child(4) { left: 18%; top: 82%; animation-name: sl-dot-4; }
+/* square (0-26%) -> triangle (33-59%) -> diamond (66-92%) -> square */
+@keyframes sl-dot-1 {
+  0%, 26%, 100% { left: 18%; top: 18%; }
+  33%, 59% { left: 50%; top: 13%; }
+  66%, 92% { left: 50%; top: 12%; }
+}
+@keyframes sl-dot-2 {
+  0%, 26%, 100% { left: 82%; top: 18%; }
+  33%, 59% { left: 87%; top: 82%; }
+  66%, 92% { left: 88%; top: 50%; }
+}
+@keyframes sl-dot-3 {
+  0%, 26%, 100% { left: 82%; top: 82%; }
+  33%, 59% { left: 50%; top: 59%; }
+  66%, 92% { left: 50%; top: 88%; }
+}
+@keyframes sl-dot-4 {
+  0%, 26%, 100% { left: 18%; top: 82%; }
+  33%, 59% { left: 13%; top: 82%; }
+  66%, 92% { left: 12%; top: 50%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sl-dots > i {
+    animation: none;
+  }
+  .sl-vf-flash {
+    animation: none;
+    display: none;
+  }
+}
+/* ---------------------------------------------------------------------------------------------
+   Mode switch (Auto / Always AI): a recessed track with a soft silver thumb that slides between
+   the two options. Silver, not white, so it never competes with the white action buttons.
+   --------------------------------------------------------------------------------------------- */
+.sl-mode-switch {
+  background: #0a0a0d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+.sl-mode-thumb {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #e4e4e7 0%, #c8c8ce 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 1px 3px rgba(0, 0, 0, 0.5);
+  transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.sl-mode-thumb--right {
+  transform: translateX(100%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sl-mode-thumb {
+    transition: none;
+  }
+}
+/* ---------------------------------------------------------------------------------------------
+   "1+" in the Auto mode label: the plus stays put and readable, but every few seconds it gives
+   a brief two-frame glitch (offset + split colour), hinting "usually 1, sometimes more".
+   --------------------------------------------------------------------------------------------- */
+.sl-plus-glitch {
+  display: inline-block;
+  margin-left: 0.5px;
+  font-weight: 700;
+  animation: sl-plus-glitch 4.6s steps(1, end) infinite;
+}
+@keyframes sl-plus-glitch {
+  0%,
+  88%,
+  100% {
+    transform: none;
+    text-shadow: none;
+    opacity: 1;
+  }
+  90% {
+    transform: translate(1px, -1px) skewX(-8deg);
+    text-shadow:
+      -1px 0 rgba(255, 60, 90, 0.75),
+      1px 0 rgba(60, 200, 255, 0.75);
+  }
+  92% {
+    transform: translate(-1px, 0.5px);
+    opacity: 0.55;
+  }
+  94% {
+    transform: translate(0.5px, 0);
+    text-shadow: 1px 0 rgba(255, 60, 90, 0.6);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sl-plus-glitch {
+    animation: none;
+  }
+}
