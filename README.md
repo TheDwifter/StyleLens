@@ -60,7 +60,7 @@ Then open Gemini, ChatGPT or Grok in another tab, signed in to your own account.
   the AI you use and from run to run.
 - Photos, busy illustrations and well-known characters can take up to three prompts, and the AI
   sometimes refuses them.
-- The first background rebuild in a session takes about 15 seconds while the model loads.
+- The background rebuild in a session can take up to 15 seconds.
 - Only recreate artwork you have the right to use. StyleLens is not affiliated with any AI provider.
 
 Privacy: [docs/PRIVACY_POLICY.md](docs/PRIVACY_POLICY.md).
